@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SignalDesk — Shoonya trading workspace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <aside class="sidebar">
+        <a class="brand" href="#"><span class="brand-mark">S</span><span>signal<span>desk</span></span></a>
+        <nav aria-label="Main navigation">
+          <a class="nav-link active" href="#scanner"><span>⌁</span> Market Scanner</a>
+          <a class="nav-link" href="#orders"><span>↗</span> Orders <b id="order-count">0</b></a>
+          <a class="nav-link" href="#positions"><span>◫</span> Positions</a>
+          <a class="nav-link" href="#automations"><span>⌘</span> Automations</a>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="account-card">
+            <div class="account-heading"><span class="status-dot"></span> SHOONYA ACCOUNT</div>
+            <strong id="account-name">Not connected</strong>
+            <button class="link-button" id="connect-button">Connect account →</button>
+          </div>
+          <button class="user"><span>AK</span><div><strong>Alex Kumar</strong><small>Trading workspace</small></div><i>⌄</i></button>
+        </div>
+      </aside>
+
+      <section class="workspace" id="scanner">
+        <header class="topbar">
+          <div><p class="eyebrow">LIVE MARKET / NSE</p><h1>Market Scanner</h1></div>
+          <div class="top-actions"><span class="market-status"><i></i> Market open</span><button class="icon-button" aria-label="Notifications">♧</button><button class="primary" id="open-connect">Connect Shoonya</button></div>
+        </header>
+
+        <section class="metrics" aria-label="Market overview">
+          <article><p>NIFTY 50</p><strong>24,742.60</strong><span class="positive">+0.42%</span></article>
+          <article><p>BANK NIFTY</p><strong>53,214.85</strong><span class="positive">+0.31%</span></article>
+          <article><p>INDIA VIX</p><strong>13.84</strong><span class="negative">−1.22%</span></article>
+          <article class="clock"><p>SESSION TIME</p><strong id="clock">09:24:18</strong><span>IST · Wed, 16 Sep</span></article>
+        </section>
+
+        <section class="scan-panel">
+          <div class="panel-heading"><div><p class="eyebrow">DISCOVER OPPORTUNITIES</p><h2>Scan conditions</h2></div><button class="ghost" id="reset-scan">Reset</button></div>
+          <div class="filters">
+            <label>Universe<select id="universe"><option>NSE · All Stocks</option><option>NIFTY 50</option><option>NIFTY BANK</option></select></label>
+            <label>Timeframe<select id="timeframe"><option>15 minutes</option><option>5 minutes</option><option>1 hour</option></select></label>
+            <label>Signal<select id="signal"><option>EMA crossover</option><option>RSI oversold</option><option>Volume breakout</option></select></label>
+            <label>Trend<select id="trend"><option>Any trend</option><option>Above 200 EMA</option><option>Bullish only</option></select></label>
+            <button class="scan-button" id="run-scan"><span>⌕</span> Run scan</button>
+          </div>
+          <div class="rule"><span class="rule-label">ACTIVE RULE</span><span id="rule-text">Price crosses above 20 EMA · Volume ≥ 1.5× average</span></div>
+        </section>
+
+        <section class="results-section">
+          <div class="section-title"><div><h2>Scan results <span id="result-total">12</span></h2><p id="scan-subtitle">Updated seconds ago · Signals ranked by strength</p></div><div class="result-tools"><button class="tool active" data-filter="all">All <span>12</span></button><button class="tool" data-filter="bullish">Bullish <span>8</span></button><button class="tool" data-filter="watch">Watchlist <span>4</span></button><button class="export" id="export-results">↓ Export</button></div></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>SYMBOL</th><th>LAST PRICE</th><th>CHANGE</th><th>VOLUME</th><th>SIGNAL</th><th>STRENGTH</th><th></th></tr></thead>
+              <tbody id="results-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <dialog id="connect-dialog">
+      <form method="dialog" class="dialog-card" id="connect-form">
+        <button class="dialog-close" value="cancel" aria-label="Close">×</button>
+        <p class="eyebrow">BROKER CONNECTION</p><h2>Connect your Shoonya account</h2><p class="dialog-copy">Your API credentials stay in this browser for this demo. For production, authenticate through a secure server-side token flow.</p>
+        <label>Vendor code<input required placeholder="Your Shoonya vendor code" /></label>
+        <label>User ID<input required placeholder="Shoonya user ID" /></label>
+        <label>API key<input required type="password" placeholder="API key" /></label>
+        <button class="primary wide" value="connect" id="submit-connect">Securely connect</button>
+      </form>
+    </dialog>
+    <dialog id="trade-dialog">
+      <form method="dialog" class="dialog-card trade-card" id="trade-form">
+        <button class="dialog-close" value="cancel" aria-label="Close">×</button>
+        <p class="eyebrow">ORDER TICKET</p><h2 id="trade-title">Buy RELIANCE</h2><div class="trade-price" id="trade-price">₹ 2,982.40</div>
+        <div class="side-toggle"><button type="button" class="buy-side active">BUY</button><button type="button" class="sell-side">SELL</button></div>
+        <label>Quantity<input id="quantity" type="number" min="1" value="1" required /></label>
+        <label>Order type<select><option>Market</option><option>Limit</option><option>Stop loss</option></select></label>
+        <button class="primary wide" value="place" id="place-order">Place order</button>
+      </form>
+    </dialog>
+    <div class="toast" id="toast" role="status"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
